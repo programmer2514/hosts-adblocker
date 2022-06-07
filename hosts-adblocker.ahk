@@ -1,5 +1,5 @@
 ﻿;-----------------------------;
-; Hosts File Adblocker v1.0.0 ;
+; Hosts File Adblocker v1.0.1 ;
 ;      By Benjamin Pryor      ;
 ;-----------------------------;
 
@@ -58,7 +58,7 @@ For n, param in A_Args
     
     If ((param == "/P") or (param == "/p"))
     {
-        FileDelete, hosts.bak.*
+        FileRecycle, hosts.bak.*
         MsgBox, 0x40, Success!, Backups purged successfully!
         Return
     }
@@ -70,7 +70,7 @@ For n, param in A_Args
     
     If (param == "/?")
     {
-        MsgBox, 0x20, Help, Hosts File Adblocker`n  By Benjamin Pryor`n    - v1.0.0`n`nAppends an external blocklist to a hosts file of a specified length.`n`nArguments:`n    /S - Silent mode, do not display reboot prompt`n    /P - Purge all backup files`n    /U - Uninstall blocklist from hosts file`n    /? - Show this help dialog
+        MsgBox, 0x20, Help, Hosts File Adblocker`n  By Benjamin Pryor`n    - v1.0.1`n`nAppends an external blocklist to a hosts file of a specified length.`n`nArguments:`n    /S - Silent mode, do not display reboot prompt`n    /P - Purge all backup files`n    /U - Uninstall blocklist from hosts file`n    /? - Show this help dialog
         Return
     }
 }
