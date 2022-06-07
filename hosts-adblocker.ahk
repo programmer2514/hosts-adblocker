@@ -1,5 +1,5 @@
 ﻿;-----------------------------;
-; Hosts File Adblocker v1.0.1 ;
+; Hosts File Adblocker v1.1.0 ;
 ;      By Benjamin Pryor      ;
 ;-----------------------------;
 
@@ -17,9 +17,29 @@ SetWorkingDir, %A_AppData%\hosts-adblocker
 hostsFileLength   := 0
 blocklistURL      := ""
 
+; Make sure ini file exists
 if not (FileExist("hosts-adblocker.ini"))
 {
-    FileAppend, [Settings]`nhostsFileLength=-1`nblocklistURL=https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt, hosts-adblocker.ini
+    ; Get length of hosts file
+    fileLength := -1
+    Loop, Read, C:\Windows\System32\Drivers\etc\hosts
+        fileLength = %A_Index%
+        
+      If (ErrorLevel == 1)
+      {
+          MsgBox, 0x10, Fatal error!, Could not read hosts file!
+          Return
+      }
+    
+    ; Create new ini file
+    FileAppend, [Settings]`nhostsFileLength=%fileLength%`nblocklistURL=https://www.github.developerdan.com/hosts/lists/ads-and-tracking-extended.txt, hosts-adblocker.ini
+    
+    MsgBox, 0x34, Warning!, No previous settings detected!`nWould you like to double-check the auto-generated ones?
+    IfMsgBox Yes
+    {
+        Run, notepad hosts-adblocker.ini
+        Return
+    }
 }
 
 IniRead, hostsFileLength, hosts-adblocker.ini, Settings, hostsFileLength
@@ -35,15 +55,6 @@ IniRead, blocklistURL, hosts-adblocker.ini, Settings, blocklistURL
       MsgBox, 0x10, Fatal error!, Could not read blocklistURL from settings file!
       Return
   }
-
-; Ensure settings validity
-If (hostsFileLength == -1)
-{
-    MsgBox, 0x34, Warning!, Invalid settings detected!`nWould you like to edit them now?
-    IfMsgBox Yes
-        Run, notepad hosts-adblocker.ini
-    Return
-}
 
 ; Handle command line arguments
 showPrompt      := True
@@ -70,7 +81,7 @@ For n, param in A_Args
     
     If (param == "/?")
     {
-        MsgBox, 0x20, Help, Hosts File Adblocker`n  By Benjamin Pryor`n    - v1.0.1`n`nAppends an external blocklist to a hosts file of a specified length.`n`nArguments:`n    /S - Silent mode, do not display reboot prompt`n    /P - Purge all backup files`n    /U - Uninstall blocklist from hosts file`n    /? - Show this help dialog
+        MsgBox, 0x20, Help, Hosts File Adblocker`n  By Benjamin Pryor`n    - v1.1.0`n`nAppends an external blocklist to a hosts file of a specified length.`n`nArguments:`n    /S - Silent mode, do not display reboot prompt`n    /P - Purge all backup files`n    /U - Uninstall blocklist from hosts file`n    /? - Show this help dialog
         Return
     }
 }
