@@ -17,6 +17,6 @@ jobs:
       - name: "Sync repo"
         uses: yesolutions/mirror-action@master
         with:
-          REMOTE: ${{ vars.CODEBERG_URL }}
-          GIT_USERNAME: ${{ vars.CODEBERG_USERNAME }}
+          REMOTE: "https://codeberg.org/${{ github.repository }}.git"
+          GIT_USERNAME: ${{ github.repository_owner }}
           GIT_PASSWORD: ${{ secrets.CODEBERG_PASSWORD }}
