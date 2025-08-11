@@ -1,5 +1,5 @@
 # Hosts File Adblocker
-A simple script that installs an ad-blocking extension from the web to the Windows hosts file.
+A simple script that installs an ad-blocking extension from the web to the Windows `hosts` file.
 
 The hosts file can be found at `C:\Windows\System32\Drivers\etc\hosts`.
 
